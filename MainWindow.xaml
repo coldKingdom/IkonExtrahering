@@ -1,0 +1,572 @@
+<Window xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        x:Name="MainWindow"
+        Title="Ikonextraheraren"
+        Width="1180" Height="760"
+        MinWidth="940" MinHeight="640"
+        WindowStartupLocation="CenterScreen"
+        Background="#F5F6F8"
+        FontFamily="Segoe UI Variable Text, Segoe UI"
+        FontSize="13"
+        UseLayoutRounding="True"
+        SnapsToDevicePixels="True"
+        AllowDrop="True"
+        TextOptions.TextFormattingMode="Display">
+
+    <Window.Resources>
+        <SolidColorBrush x:Key="AccentBrush" Color="#2563EB"/>
+        <SolidColorBrush x:Key="AccentHoverBrush" Color="#1D4ED8"/>
+        <SolidColorBrush x:Key="AccentPressedBrush" Color="#1E40AF"/>
+        <SolidColorBrush x:Key="AccentSoftBrush" Color="#E8F0FF"/>
+        <SolidColorBrush x:Key="SurfaceBrush" Color="#FFFFFF"/>
+        <SolidColorBrush x:Key="SurfaceAltBrush" Color="#F8FAFC"/>
+        <SolidColorBrush x:Key="StrokeBrush" Color="#E3E7ED"/>
+        <SolidColorBrush x:Key="TextBrush" Color="#172033"/>
+        <SolidColorBrush x:Key="MutedTextBrush" Color="#667085"/>
+
+        <DropShadowEffect x:Key="CardShadow"
+                          BlurRadius="22" ShadowDepth="3"
+                          Direction="270" Opacity="0.10" Color="#233044"/>
+
+        <DrawingBrush x:Key="CheckerBrush"
+                      TileMode="Tile"
+                      Viewport="0,0,22,22"
+                      ViewportUnits="Absolute">
+            <DrawingBrush.Drawing>
+                <DrawingGroup>
+                    <GeometryDrawing Brush="#FFFFFF" Geometry="M0,0 H22 V22 H0 Z"/>
+                    <GeometryDrawing Brush="#E8EBEF"
+                                     Geometry="M0,0 H11 V11 H0 Z M11,11 H22 V22 H11 Z"/>
+                </DrawingGroup>
+            </DrawingBrush.Drawing>
+        </DrawingBrush>
+
+        <Style x:Key="ModernButton" TargetType="{x:Type Button}">
+            <Setter Property="Height" Value="40"/>
+            <Setter Property="Padding" Value="17,0"/>
+            <Setter Property="Background" Value="#FFFFFF"/>
+            <Setter Property="Foreground" Value="{StaticResource TextBrush}"/>
+            <Setter Property="BorderBrush" Value="{StaticResource StrokeBrush}"/>
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="FontWeight" Value="SemiBold"/>
+            <Setter Property="Cursor" Value="Hand"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type Button}">
+                        <Border x:Name="ButtonBorder"
+                                Background="{TemplateBinding Background}"
+                                BorderBrush="{TemplateBinding BorderBrush}"
+                                BorderThickness="{TemplateBinding BorderThickness}"
+                                CornerRadius="9"
+                                Padding="{TemplateBinding Padding}">
+                            <ContentPresenter HorizontalAlignment="Center"
+                                              VerticalAlignment="Center"
+                                              RecognizesAccessKey="True"/>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter TargetName="ButtonBorder" Property="Background" Value="#F3F5F8"/>
+                                <Setter TargetName="ButtonBorder" Property="BorderBrush" Value="#CDD3DC"/>
+                            </Trigger>
+                            <Trigger Property="IsPressed" Value="True">
+                                <Setter TargetName="ButtonBorder" Property="Background" Value="#E9ECF1"/>
+                            </Trigger>
+                            <Trigger Property="IsEnabled" Value="False">
+                                <Setter Property="Opacity" Value="0.45"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <Style x:Key="PrimaryButton"
+               TargetType="{x:Type Button}"
+               BasedOn="{StaticResource ModernButton}">
+            <Setter Property="Background" Value="{StaticResource AccentBrush}"/>
+            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="BorderBrush" Value="{StaticResource AccentBrush}"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type Button}">
+                        <Border x:Name="ButtonBorder"
+                                Background="{TemplateBinding Background}"
+                                BorderBrush="{TemplateBinding BorderBrush}"
+                                BorderThickness="{TemplateBinding BorderThickness}"
+                                CornerRadius="9"
+                                Padding="{TemplateBinding Padding}">
+                            <ContentPresenter HorizontalAlignment="Center"
+                                              VerticalAlignment="Center"
+                                              RecognizesAccessKey="True"/>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter TargetName="ButtonBorder" Property="Background" Value="{StaticResource AccentHoverBrush}"/>
+                                <Setter TargetName="ButtonBorder" Property="BorderBrush" Value="{StaticResource AccentHoverBrush}"/>
+                            </Trigger>
+                            <Trigger Property="IsPressed" Value="True">
+                                <Setter TargetName="ButtonBorder" Property="Background" Value="{StaticResource AccentPressedBrush}"/>
+                            </Trigger>
+                            <Trigger Property="IsEnabled" Value="False">
+                                <Setter Property="Opacity" Value="0.45"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <Style x:Key="PillRadioStyle" TargetType="{x:Type RadioButton}">
+            <Setter Property="Height" Value="36"/>
+            <Setter Property="MinWidth" Value="56"/>
+            <Setter Property="Padding" Value="10,0"/>
+            <Setter Property="Margin" Value="0,0,6,0"/>
+            <Setter Property="Foreground" Value="{StaticResource MutedTextBrush}"/>
+            <Setter Property="FontWeight" Value="SemiBold"/>
+            <Setter Property="Cursor" Value="Hand"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type RadioButton}">
+                        <Border x:Name="PillBorder"
+                                Background="#F5F7FA"
+                                BorderBrush="{StaticResource StrokeBrush}"
+                                BorderThickness="1"
+                                CornerRadius="9"
+                                Padding="{TemplateBinding Padding}">
+                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter TargetName="PillBorder" Property="BorderBrush" Value="#AAB3C0"/>
+                            </Trigger>
+                            <Trigger Property="IsChecked" Value="True">
+                                <Setter TargetName="PillBorder" Property="Background" Value="{StaticResource AccentSoftBrush}"/>
+                                <Setter TargetName="PillBorder" Property="BorderBrush" Value="{StaticResource AccentBrush}"/>
+                                <Setter Property="Foreground" Value="{StaticResource AccentBrush}"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <Style x:Key="GalleryItemStyle" TargetType="{x:Type ListBoxItem}">
+            <Setter Property="Width" Value="116"/>
+            <Setter Property="Height" Value="124"/>
+            <Setter Property="Margin" Value="5"/>
+            <Setter Property="Padding" Value="0"/>
+            <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
+            <Setter Property="VerticalContentAlignment" Value="Stretch"/>
+            <Setter Property="Background" Value="Transparent"/>
+            <Setter Property="BorderBrush" Value="Transparent"/>
+            <Setter Property="BorderThickness" Value="1.5"/>
+            <Setter Property="Cursor" Value="Hand"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type ListBoxItem}">
+                        <Border x:Name="ItemBorder"
+                                Background="{TemplateBinding Background}"
+                                BorderBrush="{TemplateBinding BorderBrush}"
+                                BorderThickness="{TemplateBinding BorderThickness}"
+                                CornerRadius="12"
+                                Padding="8">
+                            <ContentPresenter/>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter TargetName="ItemBorder" Property="Background" Value="#F2F5F9"/>
+                                <Setter TargetName="ItemBorder" Property="BorderBrush" Value="#E1E6ED"/>
+                            </Trigger>
+                            <Trigger Property="IsSelected" Value="True">
+                                <Setter TargetName="ItemBorder" Property="Background" Value="{StaticResource AccentSoftBrush}"/>
+                                <Setter TargetName="ItemBorder" Property="BorderBrush" Value="{StaticResource AccentBrush}"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <Style x:Key="ModernComboItem" TargetType="{x:Type ComboBoxItem}">
+            <Setter Property="Padding" Value="11,8"/>
+            <Setter Property="Foreground" Value="{StaticResource TextBrush}"/>
+            <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type ComboBoxItem}">
+                        <Border x:Name="ItemBackground" Background="Transparent" CornerRadius="6"
+                                Padding="{TemplateBinding Padding}">
+                            <ContentPresenter/>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsHighlighted" Value="True">
+                                <Setter TargetName="ItemBackground" Property="Background" Value="#F1F4F8"/>
+                            </Trigger>
+                            <Trigger Property="IsSelected" Value="True">
+                                <Setter TargetName="ItemBackground" Property="Background" Value="{StaticResource AccentSoftBrush}"/>
+                                <Setter Property="Foreground" Value="{StaticResource AccentBrush}"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <Style x:Key="ModernCombo" TargetType="{x:Type ComboBox}">
+            <Setter Property="Height" Value="38"/>
+            <Setter Property="Background" Value="#F8FAFC"/>
+            <Setter Property="BorderBrush" Value="{StaticResource StrokeBrush}"/>
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="VerticalContentAlignment" Value="Center"/>
+            <Setter Property="ItemContainerStyle" Value="{StaticResource ModernComboItem}"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type ComboBox}">
+                        <Grid>
+                            <Border x:Name="ComboBorder"
+                                    Background="{TemplateBinding Background}"
+                                    BorderBrush="{TemplateBinding BorderBrush}"
+                                    BorderThickness="{TemplateBinding BorderThickness}"
+                                    CornerRadius="9">
+                                <Grid>
+                                    <ContentPresenter Margin="12,0,35,0"
+                                                      VerticalAlignment="Center"
+                                                      Content="{TemplateBinding SelectionBoxItem}"
+                                                      ContentTemplate="{TemplateBinding SelectionBoxItemTemplate}"/>
+                                    <Path Data="M0,0 L4,4 L8,0 Z" Fill="{StaticResource MutedTextBrush}"
+                                          Width="8" Height="4" Stretch="Fill"
+                                          HorizontalAlignment="Right" VerticalAlignment="Center"
+                                          Margin="0,0,13,0"/>
+                                </Grid>
+                            </Border>
+                            <ToggleButton Background="Transparent" BorderThickness="0" Focusable="False"
+                                          ClickMode="Press"
+                                          IsChecked="{Binding IsDropDownOpen, RelativeSource={RelativeSource TemplatedParent}, Mode=TwoWay}">
+                                <ToggleButton.Template>
+                                    <ControlTemplate TargetType="{x:Type ToggleButton}">
+                                        <Border Background="Transparent"/>
+                                    </ControlTemplate>
+                                </ToggleButton.Template>
+                            </ToggleButton>
+                            <Popup x:Name="PART_Popup" Placement="Bottom" AllowsTransparency="True"
+                                   Focusable="False" PopupAnimation="Fade"
+                                   IsOpen="{TemplateBinding IsDropDownOpen}">
+                                <Border Background="White" BorderBrush="{StaticResource StrokeBrush}"
+                                        BorderThickness="1" CornerRadius="9" Padding="4"
+                                        MinWidth="140" Margin="0,5,0,0">
+                                    <Border.Effect>
+                                        <DropShadowEffect BlurRadius="16" ShadowDepth="3" Opacity="0.16"/>
+                                    </Border.Effect>
+                                    <ScrollViewer MaxHeight="280" CanContentScroll="True">
+                                        <ItemsPresenter/>
+                                    </ScrollViewer>
+                                </Border>
+                            </Popup>
+                        </Grid>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter TargetName="ComboBorder" Property="BorderBrush" Value="#AAB3C0"/>
+                            </Trigger>
+                            <Trigger Property="IsKeyboardFocusWithin" Value="True">
+                                <Setter TargetName="ComboBorder" Property="BorderBrush" Value="{StaticResource AccentBrush}"/>
+                            </Trigger>
+                            <Trigger Property="IsEnabled" Value="False">
+                                <Setter Property="Opacity" Value="0.45"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+    </Window.Resources>
+
+    <Grid Background="#F5F6F8">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="44"/>
+        </Grid.RowDefinitions>
+
+        <Border Grid.Row="0" Background="White" BorderBrush="#E8EBF0" BorderThickness="0,0,0,1">
+            <Grid Margin="24,17">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="Auto"/>
+                </Grid.ColumnDefinitions>
+
+                <Border Width="46" Height="46" CornerRadius="13" Background="{StaticResource AccentBrush}">
+                    <TextBlock Text="◈" Foreground="White" FontSize="25"
+                               FontWeight="SemiBold" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                </Border>
+
+                <StackPanel Grid.Column="1" Margin="14,0,20,0" VerticalAlignment="Center">
+                    <TextBlock Text="Ikonextraheraren" FontSize="20" FontWeight="SemiBold"
+                               Foreground="{StaticResource TextBrush}"/>
+                    <TextBlock x:Name="FilePathText" Text="Ingen EXE- eller DLL-fil vald"
+                               Margin="0,3,0,0" Foreground="{StaticResource MutedTextBrush}"
+                               TextTrimming="CharacterEllipsis"/>
+                </StackPanel>
+
+                <StackPanel Grid.Column="2" Orientation="Horizontal" VerticalAlignment="Center">
+                    <Border Background="#F2F4F7" CornerRadius="8" Padding="11,6" Margin="0,0,10,0">
+                        <TextBlock x:Name="FileMetaText" Text="Väntar på fil"
+                                   Foreground="{StaticResource MutedTextBrush}" FontSize="12"
+                                   HorizontalAlignment="Center"
+                                   VerticalAlignment="Center"
+                                   TextAlignment="Center"/>
+                    </Border>
+                    <Button x:Name="LibrarySettingsButton" Style="{StaticResource ModernButton}"
+                            Width="40" Padding="0" Margin="0,0,9,0"
+                            ToolTip="Ställ in biblioteksplats">
+                        <TextBlock Text="⚙" FontFamily="Segoe UI Symbol" FontSize="17"
+                                   HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                    </Button>
+                    <Button x:Name="LibraryButton" Style="{StaticResource ModernButton}"
+                            Margin="0,0,9,0" ToolTip="Öppna ikonbiblioteket">
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock Text="◇" FontSize="18" Margin="0,-1,7,0"/>
+                            <TextBlock Text="Bibliotek" VerticalAlignment="Center"/>
+                            <Border Background="{StaticResource AccentSoftBrush}" CornerRadius="9"
+                                    Padding="6,2" Margin="7,0,0,0">
+                                <TextBlock x:Name="LibraryHeaderCountText" Text="0"
+                                           Foreground="{StaticResource AccentBrush}" FontSize="10"
+                                           FontWeight="SemiBold"
+                                           HorizontalAlignment="Center"
+                                           VerticalAlignment="Center"
+                                           TextAlignment="Center"/>
+                            </Border>
+                        </StackPanel>
+                    </Button>
+                    <Button x:Name="OpenButton" Style="{StaticResource PrimaryButton}"
+                            ToolTip="Öppna fil (Ctrl+O)">
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock Text="＋" FontSize="18" Margin="0,-1,7,0"/>
+                            <TextBlock Text="Öppna fil" VerticalAlignment="Center"/>
+                        </StackPanel>
+                    </Button>
+                </StackPanel>
+            </Grid>
+        </Border>
+
+        <Grid Grid.Row="1" Margin="22,20,22,18">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="1.55*" MinWidth="470"/>
+                <ColumnDefinition Width="18"/>
+                <ColumnDefinition Width="0.95*" MinWidth="350"/>
+            </Grid.ColumnDefinitions>
+
+            <Border Grid.Column="0" Background="{StaticResource SurfaceBrush}"
+                    BorderBrush="{StaticResource StrokeBrush}" BorderThickness="1"
+                    CornerRadius="15" Effect="{StaticResource CardShadow}">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="66"/>
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
+
+                    <Grid Margin="20,0">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="Auto"/>
+                        </Grid.ColumnDefinitions>
+                        <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                            <TextBlock Text="Ikoner" FontSize="16" FontWeight="SemiBold"
+                                       Foreground="{StaticResource TextBrush}"/>
+                            <Border Background="{StaticResource AccentSoftBrush}" CornerRadius="10"
+                                    Padding="8,3" Margin="9,0,0,0">
+                                <TextBlock x:Name="CountBadgeText" Text="0"
+                                           Foreground="{StaticResource AccentBrush}"
+                                           FontWeight="SemiBold" FontSize="11"
+                                           HorizontalAlignment="Center"
+                                           VerticalAlignment="Center"
+                                           TextAlignment="Center"/>
+                            </Border>
+                        </StackPanel>
+                        <TextBlock Grid.Column="1" Text="Välj en ikon för förhandsvisning"
+                                   Foreground="{StaticResource MutedTextBrush}"
+                                   VerticalAlignment="Center" FontSize="12"/>
+                    </Grid>
+
+                    <Border Grid.Row="1" BorderBrush="#EEF0F3" BorderThickness="0,1,0,0">
+                        <Grid>
+                            <ListBox x:Name="IconList"
+                                     Background="Transparent" BorderThickness="0"
+                                     Padding="11" SelectionMode="Single"
+                                     ItemContainerStyle="{StaticResource GalleryItemStyle}"
+                                     ScrollViewer.HorizontalScrollBarVisibility="Disabled"
+                                     ScrollViewer.VerticalScrollBarVisibility="Auto">
+                                <ListBox.ItemsPanel>
+                                    <ItemsPanelTemplate>
+                                        <WrapPanel IsItemsHost="True"/>
+                                    </ItemsPanelTemplate>
+                                </ListBox.ItemsPanel>
+                                <ListBox.ItemTemplate>
+                                    <DataTemplate>
+                                        <Grid>
+                                            <Grid.RowDefinitions>
+                                                <RowDefinition Height="*"/>
+                                                <RowDefinition Height="Auto"/>
+                                            </Grid.RowDefinitions>
+                                            <Image Source="{Binding Image}" Width="66" Height="66"
+                                                   Stretch="Uniform" HorizontalAlignment="Center"
+                                                   RenderOptions.BitmapScalingMode="HighQuality"/>
+                                            <TextBlock Grid.Row="1" Text="{Binding Label}" Margin="0,7,0,1"
+                                                       HorizontalAlignment="Center"
+                                                       Foreground="{StaticResource TextBrush}" FontSize="12"/>
+                                        </Grid>
+                                    </DataTemplate>
+                                </ListBox.ItemTemplate>
+                            </ListBox>
+
+                            <Grid x:Name="EmptyState" Background="White" IsHitTestVisible="False">
+                                <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
+                                    <Border Width="72" Height="72" CornerRadius="20"
+                                            Background="{StaticResource AccentSoftBrush}"
+                                            HorizontalAlignment="Center">
+                                        <TextBlock Text="⇩" FontSize="34" Foreground="{StaticResource AccentBrush}"
+                                                   HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                    </Border>
+                                    <TextBlock Text="Släpp en EXE eller DLL här"
+                                               Margin="0,18,0,0" FontSize="17" FontWeight="SemiBold"
+                                               Foreground="{StaticResource TextBrush}"
+                                               HorizontalAlignment="Center"/>
+                                    <TextBlock Text="eller använd knappen Öppna fil"
+                                               Margin="0,6,0,0" Foreground="{StaticResource MutedTextBrush}"
+                                               HorizontalAlignment="Center"/>
+                                </StackPanel>
+                            </Grid>
+                        </Grid>
+                    </Border>
+                </Grid>
+            </Border>
+
+            <Border Grid.Column="2" Background="{StaticResource SurfaceBrush}"
+                    BorderBrush="{StaticResource StrokeBrush}" BorderThickness="1"
+                    CornerRadius="15" Effect="{StaticResource CardShadow}">
+                <Grid Margin="20">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                    </Grid.RowDefinitions>
+
+                    <StackPanel>
+                        <TextBlock Text="Förhandsvisning" FontSize="16" FontWeight="SemiBold"
+                                   Foreground="{StaticResource TextBrush}"/>
+                        <TextBlock Text="Kontrollera transparens och exportstorlek"
+                                   Margin="0,4,0,14" Foreground="{StaticResource MutedTextBrush}" FontSize="12"/>
+                    </StackPanel>
+
+                    <Border Grid.Row="1" Background="{StaticResource CheckerBrush}"
+                            BorderBrush="{StaticResource StrokeBrush}" BorderThickness="1"
+                            CornerRadius="12" MinHeight="220" Margin="0,0,0,14">
+                        <Grid Margin="18">
+                            <Image x:Name="PreviewImage" Stretch="Uniform"
+                                   RenderOptions.BitmapScalingMode="HighQuality"/>
+                        </Grid>
+                    </Border>
+
+                    <StackPanel Grid.Row="2" Margin="0,0,0,15">
+                        <TextBlock x:Name="SelectionTitle" Text="Ingen ikon vald"
+                                   FontWeight="SemiBold" Foreground="{StaticResource TextBrush}"/>
+                        <TextBlock x:Name="SelectionMeta" Text="Öppna en fil för att börja"
+                                   Margin="0,3,0,0" Foreground="{StaticResource MutedTextBrush}" FontSize="12"/>
+                    </StackPanel>
+
+                    <Grid Grid.Row="3" Margin="0,0,0,16">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="1*"/>
+                            <ColumnDefinition Width="16"/>
+                            <ColumnDefinition Width="1.35*"/>
+                        </Grid.ColumnDefinitions>
+
+                        <StackPanel>
+                            <TextBlock Text="Storlek" Foreground="{StaticResource MutedTextBrush}"
+                                       FontSize="12" Margin="0,0,0,6"/>
+                            <ComboBox x:Name="SizeCombo" Style="{StaticResource ModernCombo}" SelectedIndex="6">
+                                <ComboBoxItem Content="16 × 16" Tag="16"/>
+                                <ComboBoxItem Content="24 × 24" Tag="24"/>
+                                <ComboBoxItem Content="32 × 32" Tag="32"/>
+                                <ComboBoxItem Content="48 × 48" Tag="48"/>
+                                <ComboBoxItem Content="64 × 64" Tag="64"/>
+                                <ComboBoxItem Content="128 × 128" Tag="128"/>
+                                <ComboBoxItem Content="256 × 256" Tag="256"/>
+                            </ComboBox>
+                        </StackPanel>
+
+                        <StackPanel Grid.Column="2">
+                            <TextBlock Text="Format" Foreground="{StaticResource MutedTextBrush}"
+                                       FontSize="12" Margin="0,0,0,6"/>
+                            <StackPanel Orientation="Horizontal">
+                                <RadioButton x:Name="PngRadio" Content="PNG" GroupName="Format"
+                                             IsChecked="True" Style="{StaticResource PillRadioStyle}"/>
+                                <RadioButton x:Name="JpgRadio" Content="JPG" GroupName="Format"
+                                             Style="{StaticResource PillRadioStyle}"/>
+                                <RadioButton x:Name="IcoRadio" Content="ICO" GroupName="Format"
+                                             Style="{StaticResource PillRadioStyle}" Margin="0"/>
+                            </StackPanel>
+                        </StackPanel>
+
+                        <Grid x:Name="QualityPanel" Grid.ColumnSpan="3" Margin="0,70,0,0"
+                              Visibility="Collapsed">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto"/>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="Auto"/>
+                            </Grid.ColumnDefinitions>
+                            <TextBlock Text="JPG-kvalitet" VerticalAlignment="Center"
+                                       Foreground="{StaticResource MutedTextBrush}" FontSize="12"/>
+                            <Slider x:Name="QualitySlider" Grid.Column="1" Minimum="1" Maximum="100"
+                                    Value="92" Margin="12,0" VerticalAlignment="Center"/>
+                            <TextBlock x:Name="QualityText" Grid.Column="2" Text="92 %"
+                                       MinWidth="38" TextAlignment="Right" VerticalAlignment="Center"
+                                       Foreground="{StaticResource TextBrush}" FontWeight="SemiBold"/>
+                        </Grid>
+                        <Border x:Name="IcoHintPanel" Grid.ColumnSpan="3" Margin="0,70,0,0"
+                                Background="{StaticResource AccentSoftBrush}" CornerRadius="8"
+                                Padding="10,7" Visibility="Collapsed">
+                            <TextBlock Text="ICO-storlekar väljs när du exporterar."
+                                       Foreground="{StaticResource AccentBrush}" FontSize="12"/>
+                        </Border>
+                    </Grid>
+
+                    <StackPanel Grid.Row="4">
+                        <Button x:Name="SaveToLibraryButton" Style="{StaticResource ModernButton}"
+                                Content="◇  Spara i bibliotek" IsEnabled="False" Margin="0,0,0,10"/>
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="10"/>
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
+                            <Button x:Name="ExportSelectedButton" Style="{StaticResource PrimaryButton}"
+                                    Content="Exportera vald" IsEnabled="False" ToolTip="Exportera vald ikon (Ctrl+S)"/>
+                            <Button x:Name="ExportAllButton" Grid.Column="2" Style="{StaticResource ModernButton}"
+                                    Content="Exportera alla" IsEnabled="False"/>
+                        </Grid>
+                    </StackPanel>
+                </Grid>
+            </Border>
+        </Grid>
+
+        <Border Grid.Row="2" Background="White" BorderBrush="#E8EBF0" BorderThickness="0,1,0,0">
+            <Grid Margin="24,0">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="170"/>
+                </Grid.ColumnDefinitions>
+                <Ellipse Width="7" Height="7" Fill="#22C55E" Margin="0,0,9,0"/>
+                <TextBlock x:Name="StatusText" Grid.Column="1" Text="Redo"
+                           VerticalAlignment="Center" Foreground="{StaticResource MutedTextBrush}" FontSize="12"/>
+                <ProgressBar x:Name="BusyProgress" Grid.Column="2" Height="4"
+                             Minimum="0" Maximum="100" Visibility="Collapsed"
+                             VerticalAlignment="Center" Foreground="{StaticResource AccentBrush}"
+                             Background="#E7EBF1" BorderThickness="0"/>
+            </Grid>
+        </Border>
+    </Grid>
+</Window>

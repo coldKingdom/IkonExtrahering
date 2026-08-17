@@ -1,0 +1,12 @@
+# Lokala programdata om LibraryRoot pekas mot projektmappen
+/library.json
+/library.lock
+/settings.json
+/icons/
+
+# Atomiska temporärfiler
+*.tmp
+
+# Windows
+Thumbs.db
+Desktop.ini
